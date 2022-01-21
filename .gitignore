@@ -1,0 +1,9 @@
+# Dependency directories
+node_modules/
+requests/
+
+#Debug files
+.vscode
+
+#Environment files
+.env
