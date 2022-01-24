@@ -4,11 +4,11 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
-const Blog = require('./models/blogs')
+const mongoose = require('mongoose')
+const blogsRouter = require('./controllers/blogs')
 const logger = require('./utils/logger')
 const config = require('./utils/config')
 const server = http.createServer(app)
-
 
 app.use(cors())
 app.use(express.json())
@@ -16,26 +16,16 @@ app.use(express.json())
 morgan.token('body', (req) => {return JSON.stringify(req.body)})
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms {:body}'))
 
-app.get('/api/blogs', (req, res) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      res.json(blogs)
-    })
-})
+app.use('/api/blogs', blogsRouter)
 
-app.post('/api/blogs', (req, res, next) => {
-  const blog = new Blog(req.body)
-
-  logger.info(blog)
-
-  blog
-    .save()
-    .then(saveblog => {
-      res.status(201).json(saveblog)
-    })
-    .catch(error => next(error))
-})
+const mongoUrl = config.MONGODB_URI
+mongoose.connect(mongoUrl)
+  .then(() => {
+    logger.info('Connected to MongoDB')
+  })
+  .catch((error) => {
+    logger.info('Error connecting to MongoDB:', error.message)
+  })
 
 const errorHandler = (error,req,res,next) => {
   logger.error(error)
