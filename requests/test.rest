@@ -2,10 +2,10 @@ POST http://localhost:3003/api/blogs
 Content-type: application/json
 
 {
-    "title": "My Second Blog",
-    "author": "Manuel Maria Félix",
-    "url": "www.myblog2.com",
-    "likes": 34
+    "title": "My Third Blog",
+    "author": "Manuel Fonseca Félix",
+    "url": "www.myblog3.com",
+    "likes": 45
 }
 
 ####
