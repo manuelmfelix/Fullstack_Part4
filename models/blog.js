@@ -5,9 +5,12 @@ const blogSchema = new mongoose.Schema({
   title: { type: String,
     minLength: 3,
     required: true,
-    unique: true },
+    unique: false },
   author: String,
-  url: String,
+  url: { type: String,
+    minLength: 3,
+    required: true,
+    unique: false },
   likes: Number
 })
 
@@ -15,6 +18,8 @@ blogSchema.plugin(uniqueValidator)
 
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
     delete returnedObject.__v
   }
 })

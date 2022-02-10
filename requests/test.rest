@@ -2,12 +2,28 @@ POST http://localhost:3003/api/blogs
 Content-type: application/json
 
 {
-    "title": "My Third Blog",
+    "title": "My Forth Blog",
     "author": "Manuel Fonseca Félix",
-    "url": "www.myblog3.com",
-    "likes": 45
+    "url": "www.myblog4.com"
 }
 
 ####
 
 GET http://localhost:3003/api/blogs
+
+####
+
+DELETE http://localhost:3003/api/blogs/6205688e753d81fd2013fbab
+
+####
+
+GET http://localhost:3003/api/blogs/61f13aa700566d1b77bf6f28
+
+####
+
+PUT http://localhost:3003/api/blogs/61f13aa700566d1b77bf6f28
+Content-type: application/json
+
+{
+    "likes": 111
+}
