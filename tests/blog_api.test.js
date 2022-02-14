@@ -4,37 +4,20 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-// const initialBlogs = [
-//   {
-//     title:'My First Blog',
-//     author:'Manuel Félix',
-//     url:'www.myblog.com',
-//     likes:23
-//   },
-//   {
-//     title:'My Second Blog',
-//     author:'Manuel Fonseca Félix',
-//     url:'www.myblog2.com',
-//     likes:11
-//   },
-// ]
-
-beforeEach(async () => {
-  await Blog.deleteMany({})
-  console.log('cleared')
-
-  const blogObject = helper.initialBlogs
-    .map(blog => new Blog(blog))
-  const promiseArray = blogObject.map(blog => blog.save())
-  await Promise.all(promiseArray)
-
-  // let blogObject = new Blog(helper.initialBlogs[0])
-  // await blogObject.save()
-  // blogObject = new Blog(helper.initialBlogs[1])
-  // await blogObject.save()
-})
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
 describe('initial blogs', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    console.log('cleared')
+
+    const blogObject = helper.initialBlogs
+      .map(blog => new Blog(blog))
+    const promiseArray = blogObject.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
+
   test('blogs are returned as json', async () => {
     console.log('entering the tests')
     await api
@@ -62,6 +45,16 @@ describe('initial blogs', () => {
 })
 
 describe('specific blogs', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    console.log('cleared')
+
+    const blogObject = helper.initialBlogs
+      .map(blog => new Blog(blog))
+    const promiseArray = blogObject.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
+
   test('a specific blog is within the returned blogs', async () => {
     const response = await api.get('/api/blogs')
     const contents = response.body.map(r => r.title)
@@ -83,6 +76,16 @@ describe('specific blogs', () => {
 })
 
 describe('adding blogs', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    console.log('cleared')
+
+    const blogObject = helper.initialBlogs
+      .map(blog => new Blog(blog))
+    const promiseArray = blogObject.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
+
   test('a valid blog can be added', async () => {
     const newBlog = {
       title:'About async blog',
@@ -131,6 +134,16 @@ describe('adding blogs', () => {
 })
 
 describe('blog deletion', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    console.log('cleared')
+
+    const blogObject = helper.initialBlogs
+      .map(blog => new Blog(blog))
+    const promiseArray = blogObject.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
+
   test('a blog can be deleted', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogsToDelete = blogsAtStart[0]
@@ -148,6 +161,66 @@ describe('blog deletion', () => {
     expect(contents).not.toContain(blogsAtEnd.title)
   })
 })
+
+describe('when there is initially one user in db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+  test('creation succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'salainen',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).toContain(newUser.username)
+  })
+
+
+  test('creation fails with proper statuscode and message if username already taken', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'salainen',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('`username` to be unique')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+})
+
+
+
+
 
 afterAll(() => {
   mongose.connection.close()
