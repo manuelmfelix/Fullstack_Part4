@@ -2,9 +2,10 @@ POST http://localhost:3003/api/blogs
 Content-type: application/json
 
 {
-    "title": "My Forth Blog",
-    "author": "Manuel Fonseca Félix",
-    "url": "www.myblog4.com"
+    "title": "My Fifth Blog",
+    "author": "Manuel Maria Félix",
+    "url": "www.myblog5.com",
+    "userId": "62063cf09975539e190e6d09"
 }
 
 ####
@@ -13,7 +14,7 @@ GET http://localhost:3003/api/blogs
 
 ####
 
-DELETE http://localhost:3003/api/blogs/6205688e753d81fd2013fbab
+DELETE http://localhost:3003/api/blogs/620ceb7ccd793c86eec6a568
 
 ####
 
@@ -30,16 +31,20 @@ Content-type: application/json
 
 ####
 
+GET http://localhost:3003/api/users
+
+####
+
 POST http://localhost:3003/api/users
 Content-type: application/json
 
 {
     "notes": [],
-    "username": "root",
-    "name": "Superuser",
+    "username": "mmsddf",
+    "name": "Manuel Félix",
     "password": "salainen"
 }
 
 ####
 
-GET http://localhost:3003/api/users
+DELETE http://localhost:3003/api/users/620cea32cd793c86eec6a550
