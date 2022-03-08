@@ -1,11 +1,12 @@
 POST http://localhost:3003/api/blogs
 Content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1tc2RkZiIsImlkIjoiNjIyNjNlOTRmYTE2ZDM0Mzk0N2M0NWFlIiwiaWF0IjoxNjQ2Njc0NDUxfQ.XESTnAG5Mzxbxaer_fSmaPp2x8Yud7ia6gPnAgLzZ2A
 
 {
-    "title": "My Fifth Blog",
-    "author": "Manuel Maria Félix",
-    "url": "www.myblog5.com",
-    "userId": "62063cf09975539e190e6d09"
+    "title": "My Seventh Blog",
+    "author": "Manuel Fonseca Félix",
+    "url": "www.myblog7.com",
+    "userId": "62263e94fa16d343947c45ae"
 }
 
 ####
@@ -41,10 +42,19 @@ Content-type: application/json
 {
     "notes": [],
     "username": "mmsddf",
-    "name": "Manuel Félix",
-    "password": "salainen"
+    "name": "Manuel Felix"
 }
 
 ####
 
 DELETE http://localhost:3003/api/users/620cea32cd793c86eec6a550
+
+####
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "mmsddf",
+    "password":"salainen"
+}

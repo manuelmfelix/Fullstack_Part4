@@ -8,8 +8,10 @@ const cors = require('cors')
 const blogsRouter = require('./controllers/blogs')
 const userRouter = require('./controllers/users')
 const middleware = require('./utils/middleware')
+const loginRouter = require('./controllers/login')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+
 
 morgan.token('body', (req) => {return JSON.stringify(req.body)})
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms {:body}'))
@@ -28,6 +30,6 @@ app.use(express.json())
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', userRouter)
 app.use(middleware.errorHandler)
-
+app.use('/api/login', loginRouter)
 
 module.exports = app
