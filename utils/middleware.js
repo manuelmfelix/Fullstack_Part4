@@ -1,4 +1,6 @@
-const logger = require('../utils/logger')
+const logger = require('./logger')
+const jwt = require('jsonwebtoken')
+const User = require('../models/user')
 
 const errorHandler = (error,req,res,next) => {
   if(error.name === 'CastError'){
@@ -13,6 +15,18 @@ const errorHandler = (error,req,res,next) => {
   next(error)
 }
 
+const userExtractor = async (request, response, next) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    const decodedToken = jwt.verify(authorization.substring(7), process.env.SECRET)
+    if (decodedToken) {
+      request.user = await User.findById(decodedToken.id)
+    }
+  }
+
+  next()
+}
+
 module.exports = {
-  errorHandler
+  errorHandler, userExtractor
 }

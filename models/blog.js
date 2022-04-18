@@ -9,8 +9,7 @@ const blogSchema = new mongoose.Schema({
   author: String,
   url: { type: String,
     minLength: 3,
-    required: true,
-    unique: false },
+    required: true },
   likes: Number,
   user: {
     type: mongoose.Schema.Types.ObjectId,
