@@ -1,12 +1,12 @@
 POST http://localhost:3003/api/blogs
 Content-type: application/json
 //Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1tc2RkZiIsImlkIjoiNjIyNjNlOTRmYTE2ZDM0Mzk0N2M0NWFlIiwiaWF0IjoxNjQ2Njc0NDUxfQ.XESTnAG5Mzxbxaer_fSmaPp2x8Yud7ia6gPnAgLzZ2A
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1tc2RkZiIsImlkIjoiNjIyNjNlOTRmYTE2ZDM0Mzk0N2M0NWFlIiwiaWF0IjoxNjUwMjgyOTg0LCJleHAiOjE2NTAyODY1ODR9.4ao083tCCOunY4VA9eZnbELOTayXg34s4bl3i7vV-bQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1tc2RkZiIsImlkIjoiNjIyNjNlOTRmYTE2ZDM0Mzk0N2M0NWFlIiwiaWF0IjoxNjUwMzYwNzgyfQ.xi_LjqA947V2dUXUsi1A00l-fMD7ZaldAAje_MOvKSw
 
 {
-    "title": "My Twelvth Blog",
+    "title": "My 15 Blog",
     "author": "Manuel Maria Félix",
-    "url": "www.myblog12.com"
+    "url": "www.myblog15.com"
     //"userId": "62263e94fa16d343947c45ae"
 }
 
